@@ -1,33 +1,30 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { UserService } from "../services/user";
+import FormEditUser from "../components/core/editUser.ts/formEditUser";
 
-export function userLoader({ params }) {
-  const user = {
-    id: params.userId,
-    name: "teste",
-    email: "teste@gmail.com",
+const EditUser = () => {
+  const { id } = useParams();
+  const { findUser } = UserService();
+
+  const [user, setUser] = useState();
+
+  const fetchUser = async () => {
+    const userSelected = await findUser({ id });
+    setUser(userSelected.result.user[0]);
   };
 
-  return { user };
-}
-
-function EditUser() {
-  const { user } = useLoaderData();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <div>
+      <a href="/users">Voltar para a Home</a>
       <p>Edição de Usuário</p>
-      <div>
-        <form>
-          <label>Nome:</label>
-          <input type="text" value={user.name} />
-          <br />
-          <br />
-          <button type="submit">Salvar</button>
-        </form>
-      </div>
+      <div>{user && <FormEditUser data={user} />}</div>
     </div>
   );
-}
+};
 
 export default EditUser;

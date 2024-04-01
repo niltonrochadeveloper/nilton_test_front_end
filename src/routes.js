@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
 import Users from "./pages/Users";
 import UserEdit, { userLoader } from "./pages/UserEdit";
 
@@ -10,13 +11,17 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/login",
+    element: <SignIn />,
+  },
+  {
     path: "/users",
     element: <Users />,
   },
   {
-    path: "/users/:userId",
+    path: "/users/:id",
     element: <UserEdit />,
-    loader: userLoader,
+    // loader: userLoader,
   },
 ]);
 
